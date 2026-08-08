@@ -1,0 +1,10 @@
+{
+  "description": "Effortlessly convert and execute Markdown content into formatted documents, streamlining workflows for writers, developers, and content creators.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
