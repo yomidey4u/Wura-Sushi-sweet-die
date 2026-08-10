@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useForm } from "@formspree/react"
 
 type FormState = {
   name: string
@@ -10,7 +11,7 @@ type FormState = {
 
 type Errors = Partial<Record<keyof FormState, string>>
 
-const DEFAULT_FORMSPREE_ENDPOINT = "https://formspree.io/f/xqpzprrz"
+const FORMSPREE_ID = "xqpzprrz"
 
 export default function Contact() {
   const [form, setForm] = useState<FormState>({
@@ -21,9 +22,8 @@ export default function Contact() {
     message: "",
   })
   const [errors, setErrors] = useState<Errors>({})
-  const [submitted, setSubmitted] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState("")
+  const [state, handleSubmit] = useForm(FORMSPREE_ID)
 
   const validate = (): boolean => {
     const e: Errors = {}
@@ -36,51 +36,12 @@ export default function Contact() {
     return Object.keys(e).length === 0
   }
 
-  const handleSubmit = async (ev: React.FormEvent) => {
+  const onSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
     if (!validate()) return
 
-    setIsSubmitting(true)
     setSubmitError("")
-
-    try {
-      const endpoint = (import.meta.env.VITE_FORMSPREE_ENDPOINT || DEFAULT_FORMSPREE_ENDPOINT).trim()
-
-      if (endpoint) {
-        const response = await fetch(endpoint, {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: form.name,
-            email: form.email,
-            business: form.business,
-            interest: form.interest,
-            message: form.message,
-          }),
-        })
-
-        if (!response.ok) {
-          const payload = await response.json().catch(() => null)
-          throw new Error(payload?.error || "Submission failed")
-        }
-      } else {
-        const subject = encodeURIComponent(`Consultation enquiry from ${form.name}`)
-        const body = encodeURIComponent(
-          `Name: ${form.name}\nEmail: ${form.email}\nBusiness: ${form.business || "N/A"}\nInterest: ${form.interest}\n\nMessage:\n${form.message}`,
-        )
-        window.location.href = `mailto:hello@inotankale.co.uk?subject=${subject}&body=${body}`
-      }
-
-      setSubmitted(true)
-    } catch (error) {
-      console.error(error)
-      setSubmitError("We couldn't send your message automatically. Please email hello@inotankale.co.uk directly.")
-    } finally {
-      setIsSubmitting(false)
-    }
+    handleSubmit(ev)
   }
 
   const field = (id: keyof FormState, label: string, type = "text", placeholder = "") => (
@@ -97,6 +58,7 @@ export default function Contact() {
       </label>
       <input
         id={id}
+        name={id}
         type={type}
         value={form[id]}
         placeholder={placeholder}
@@ -149,7 +111,7 @@ export default function Contact() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-16">
           {/* Form */}
           <div className="lg:col-span-3">
-            {submitted ? (
+            {state.succeeded ? (
               <div
                 className="p-10"
                 style={{ backgroundColor: "#0A1A2B", borderRadius: "2px" }}
@@ -173,7 +135,7 @@ export default function Contact() {
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6">
+              <form onSubmit={onSubmit} noValidate className="flex flex-col gap-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {field("name", "Full name", "text", "Jane Smith")}
                   {field("email", "Email address", "email", "jane@yourbusiness.com")}
@@ -191,6 +153,7 @@ export default function Contact() {
                   </label>
                   <select
                     id="interest"
+                    name="interest"
                     value={form.interest}
                     onChange={(e) => {
                       setForm((f) => ({ ...f, interest: e.target.value }))
@@ -230,6 +193,7 @@ export default function Contact() {
                   </label>
                   <textarea
                     id="message"
+                    name="message"
                     rows={5}
                     value={form.message}
                     placeholder="What are you working on? What's getting in the way?"
@@ -264,17 +228,17 @@ export default function Contact() {
 
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={state.submitting}
                   className="self-start px-8 py-3.5 text-sm font-medium tracking-wide transition-all duration-300 disabled:opacity-70"
                   style={{ backgroundColor: "#C08A3E", color: "#0A1A2B", borderRadius: "2px" }}
                   onMouseEnter={(e) => {
-                    if (!isSubmitting) (e.currentTarget as HTMLElement).style.backgroundColor = "#D4A05A"
+                    if (!state.submitting) (e.currentTarget as HTMLElement).style.backgroundColor = "#D4A05A"
                   }}
                   onMouseLeave={(e) => {
-                    if (!isSubmitting) (e.currentTarget as HTMLElement).style.backgroundColor = "#C08A3E"
+                    if (!state.submitting) (e.currentTarget as HTMLElement).style.backgroundColor = "#C08A3E"
                   }}
                 >
-                  {isSubmitting ? "Sending..." : "Send message"}
+                  {state.submitting ? "Sending..." : "Send message"}
                 </button>
               </form>
             )}
