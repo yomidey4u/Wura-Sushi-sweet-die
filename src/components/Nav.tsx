@@ -33,15 +33,12 @@ export default function Nav() {
     >
       <nav className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16 md:h-20">
         {/* Wordmark */}
-        <Link to="/" className="flex flex-col leading-none group">
+        <Link to="/" className="flex items-center leading-none group">
           <span
             className="text-xl md:text-2xl font-medium tracking-wide transition-colors"
             style={{ fontFamily: "var(--font-serif)", color: "#C08A3E" }}
           >
             Ino Tankale
-          </span>
-          <span className="text-xs tracking-widest uppercase text-white/40 mt-0.5 group-hover:text-white/60 transition-colors">
-            Consultancy
           </span>
         </Link>
 
