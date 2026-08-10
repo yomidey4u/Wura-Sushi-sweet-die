@@ -10,6 +10,8 @@ type FormState = {
 
 type Errors = Partial<Record<keyof FormState, string>>
 
+const DEFAULT_FORMSPREE_ENDPOINT = "https://formspree.io/f/xqpzprrz"
+
 export default function Contact() {
   const [form, setForm] = useState<FormState>({
     name: "",
@@ -20,6 +22,8 @@ export default function Contact() {
   })
   const [errors, setErrors] = useState<Errors>({})
   const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState("")
 
   const validate = (): boolean => {
     const e: Errors = {}
@@ -32,9 +36,51 @@ export default function Contact() {
     return Object.keys(e).length === 0
   }
 
-  const handleSubmit = (ev: React.FormEvent) => {
+  const handleSubmit = async (ev: React.FormEvent) => {
     ev.preventDefault()
-    if (validate()) setSubmitted(true)
+    if (!validate()) return
+
+    setIsSubmitting(true)
+    setSubmitError("")
+
+    try {
+      const endpoint = (import.meta.env.VITE_FORMSPREE_ENDPOINT || DEFAULT_FORMSPREE_ENDPOINT).trim()
+
+      if (endpoint) {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: form.name,
+            email: form.email,
+            business: form.business,
+            interest: form.interest,
+            message: form.message,
+          }),
+        })
+
+        if (!response.ok) {
+          const payload = await response.json().catch(() => null)
+          throw new Error(payload?.error || "Submission failed")
+        }
+      } else {
+        const subject = encodeURIComponent(`Consultation enquiry from ${form.name}`)
+        const body = encodeURIComponent(
+          `Name: ${form.name}\nEmail: ${form.email}\nBusiness: ${form.business || "N/A"}\nInterest: ${form.interest}\n\nMessage:\n${form.message}`,
+        )
+        window.location.href = `mailto:hello@inotankale.co.uk?subject=${subject}&body=${body}`
+      }
+
+      setSubmitted(true)
+    } catch (error) {
+      console.error(error)
+      setSubmitError("We couldn't send your message automatically. Please email hello@inotankale.co.uk directly.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const field = (id: keyof FormState, label: string, type = "text", placeholder = "") => (
@@ -210,14 +256,25 @@ export default function Contact() {
                   )}
                 </div>
 
+                {submitError && (
+                  <p className="text-sm" style={{ color: "#c0392b" }}>
+                    {submitError}
+                  </p>
+                )}
+
                 <button
                   type="submit"
-                  className="self-start px-8 py-3.5 text-sm font-medium tracking-wide transition-all duration-300"
+                  disabled={isSubmitting}
+                  className="self-start px-8 py-3.5 text-sm font-medium tracking-wide transition-all duration-300 disabled:opacity-70"
                   style={{ backgroundColor: "#C08A3E", color: "#0A1A2B", borderRadius: "2px" }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = "#D4A05A" }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = "#C08A3E" }}
+                  onMouseEnter={(e) => {
+                    if (!isSubmitting) (e.currentTarget as HTMLElement).style.backgroundColor = "#D4A05A"
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isSubmitting) (e.currentTarget as HTMLElement).style.backgroundColor = "#C08A3E"
+                  }}
                 >
-                  Send message
+                  {isSubmitting ? "Sending..." : "Send message"}
                 </button>
               </form>
             )}
