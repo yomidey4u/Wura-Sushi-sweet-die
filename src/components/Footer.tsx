@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 const socials = [
   {
     name: "Instagram",
-    href: "#",
+    href: "https://www.instagram.com/inotankale?igsh=MXkwcDl3NmtnZmJhMg==",
     icon: (
       <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
@@ -14,7 +14,7 @@ const socials = [
   },
   {
     name: "Facebook",
-    href: "#",
+    href: "https://www.facebook.com/share/1DTeDaALLP/?mibextid=wwXIfr",
     icon: (
       <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
         <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
@@ -23,7 +23,7 @@ const socials = [
   },
   {
     name: "LinkedIn",
-    href: "#",
+    href: "https://www.linkedin.com/company/ino-tankale/",
     icon: (
       <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
         <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
@@ -33,7 +33,7 @@ const socials = [
   },
   {
     name: "X",
-    href: "#",
+    href: "https://x.com/inotankale?s=11",
     icon: (
       <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -42,7 +42,7 @@ const socials = [
   },
   {
     name: "TikTok",
-    href: "#",
+    href: "https://www.tiktok.com/@inotankale?_r=1&_t=ZG-98nVKlzs5YG",
     icon: (
       <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
         <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.28 6.28 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V9.23a8.18 8.18 0 0 0 4.78 1.52V7.3a4.85 4.85 0 0 1-1.01-.61z" />
@@ -85,6 +85,8 @@ export default function Footer() {
               <a
                 key={s.name}
                 href={s.href}
+                target="_blank"
+                rel="noreferrer noopener"
                 aria-label={s.name}
                 className="flex items-center justify-center w-9 h-9 rounded-sm transition-all duration-200"
                 style={{
