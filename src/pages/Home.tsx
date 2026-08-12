@@ -1,5 +1,10 @@
 import { Link } from "react-router-dom"
 import { useEffect, useRef, useState } from "react"
+import slideWorkspace from "../images/pexels-architecture-1837058_1920.jpg"
+import slideProfessional from "../images/mercierzeng-man-7274817_1920.jpg"
+import slideTeam from "../images/tumisu-team-4200837_1920.jpg"
+import slideGroup from "../images/stocksnap-group-2606784_1920.jpg"
+import slideMeeting from "../images/aniset-class-1227100_1920.jpg"
 
 function FadeIn({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -33,11 +38,11 @@ function FadeIn({ children, delay = 0, className = "" }: { children: React.React
 
 function HeroCarousel() {
   const slides = [
-    { src: "/images/pexels-architecture-1837058_1920.jpg", alt: "Architectural workspace interior" },
-    { src: "/images/mercierzeng-man-7274817_1920.jpg", alt: "Professional working in a modern office" },
-    { src: "/images/tumisu-team-4200837_1920.jpg", alt: "Team collaborating around a desk" },
-    { src: "/images/stocksnap-group-2606784_1920.jpg", alt: "Group discussion and planning" },
-    { src: "/images/aniset-class-1227100_1920.jpg", alt: "Focused business meeting scene" },
+    { src: slideWorkspace, alt: "Architectural workspace interior" },
+    { src: slideProfessional, alt: "Professional working in a modern office" },
+    { src: slideTeam, alt: "Team collaborating around a desk" },
+    { src: slideGroup, alt: "Group discussion and planning" },
+    { src: slideMeeting, alt: "Focused business meeting scene" },
   ]
   const [activeIndex, setActiveIndex] = useState(0)
 
