@@ -31,6 +31,54 @@ function FadeIn({ children, delay = 0, className = "" }: { children: React.React
   )
 }
 
+function HeroCarousel() {
+  const slides = [
+    { src: "/images/pexels-architecture-1837058_1920.jpg", alt: "Architectural workspace interior" },
+    { src: "/images/mercierzeng-man-7274817_1920.jpg", alt: "Professional working in a modern office" },
+    { src: "/images/tumisu-team-4200837_1920.jpg", alt: "Team collaborating around a desk" },
+    { src: "/images/stocksnap-group-2606784_1920.jpg", alt: "Group discussion and planning" },
+    { src: "/images/aniset-class-1227100_1920.jpg", alt: "Focused business meeting scene" },
+  ]
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % slides.length)
+    }, 3500)
+    return () => window.clearInterval(timer)
+  }, [])
+
+  return (
+    <div className="relative overflow-hidden rounded-2xl h-[420px] sm:h-[480px]" style={{ backgroundColor: "#091220" }}>
+      {slides.map((slide, index) => (
+        <img
+          key={slide.src}
+          src={slide.src}
+          alt={slide.alt}
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
+          style={{ opacity: activeIndex === index ? 1 : 0 }}
+        />
+      ))}
+      <div className="absolute inset-0 bg-black/20" />
+      <div className="absolute bottom-4 left-4 flex items-center gap-2">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            type="button"
+            aria-label={`Show slide ${index + 1}`}
+            onClick={() => setActiveIndex(index)}
+            className="w-3 h-3 rounded-full transition-all duration-300"
+            style={{
+              backgroundColor: activeIndex === index ? "#C08A3E" : "rgba(255,255,255,0.45)",
+              transform: activeIndex === index ? "scale(1.15)" : "scale(1)",
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function Home() {
   return (
     <div>
@@ -109,33 +157,9 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Stats panel */}
+          {/* Hero image carousel */}
           <div className="lg:pl-8">
-            <div
-              className="p-8 grid grid-cols-2 gap-px"
-              style={{ backgroundColor: "rgba(192,138,62,0.15)", borderRadius: "2px" }}
-            >
-              {[
-                { label: "Service lines", value: "Two" },
-                { label: "Based in", value: "UK" },
-                { label: "Focus", value: "Execution" },
-                { label: "Approach", value: "Embedded" },
-              ].map((s, i) => (
-                <div
-                  key={i}
-                  className="p-6"
-                  style={{ backgroundColor: "rgba(10,26,43,0.9)" }}
-                >
-                  <div
-                    className="text-3xl font-medium mb-2"
-                    style={{ fontFamily: "var(--font-serif)", color: "#C08A3E" }}
-                  >
-                    {s.value}
-                  </div>
-                  <div className="text-xs tracking-wide text-white/50 uppercase">{s.label}</div>
-                </div>
-              ))}
-            </div>
+            <HeroCarousel />
           </div>
         </div>
 
