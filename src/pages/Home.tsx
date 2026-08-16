@@ -114,7 +114,6 @@ export default function Home() {
               style={{ color: "#C08A3E" }}
             >
               <span className="block w-8 h-px" style={{ backgroundColor: "#C08A3E" }} />
-              Strategic Execution Partner
             </div>
 
             <h1
@@ -128,9 +127,7 @@ export default function Home() {
               is where it counts.
             </h1>
 
-            <p className="text-lg text-white/65 leading-relaxed mb-10 max-w-lg">
-              Ino Tankale works alongside founders and growing businesses as an embedded operational partner — turning strategy into consistent, revenue-generating action.
-            </p>
+            
 
             <div className="flex flex-wrap gap-4">
               <Link
