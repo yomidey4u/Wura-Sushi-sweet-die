@@ -120,7 +120,7 @@ export default function Home() {
   useEffect(() => {
     const timer = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % slides.length)
-    }, 3500)
+    }, 5000)
     return () => window.clearInterval(timer)
   }, [])
 
