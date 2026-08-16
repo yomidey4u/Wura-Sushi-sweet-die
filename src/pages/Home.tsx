@@ -36,23 +36,15 @@ function FadeIn({ children, delay = 0, className = "" }: { children: React.React
   )
 }
 
-function HeroCarousel() {
-  const slides = [
-    { src: slideWorkspace, alt: "Architectural workspace interior" },
-    { src: slideProfessional, alt: "Professional working in a modern office" },
-    { src: slideTeam, alt: "Team collaborating around a desk" },
-    { src: slideGroup, alt: "Group discussion and planning" },
-    { src: slideMeeting, alt: "Focused business meeting scene" },
-  ]
-  const [activeIndex, setActiveIndex] = useState(0)
-
-  useEffect(() => {
-    const timer = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % slides.length)
-    }, 3500)
-    return () => window.clearInterval(timer)
-  }, [])
-
+function HeroCarousel({
+  slides,
+  activeIndex,
+  setActiveIndex,
+}: {
+  slides: { src: string; alt: string }[]
+  activeIndex: number
+  setActiveIndex: React.Dispatch<React.SetStateAction<number>>
+}) {
   return (
     <div className="relative overflow-hidden rounded-2xl h-[280px] sm:h-[420px] lg:h-[480px]" style={{ backgroundColor: "#091220" }}>
       {slides.map((slide, index) => (
@@ -85,6 +77,53 @@ function HeroCarousel() {
 }
 
 export default function Home() {
+  const slides = [
+    {
+      src: slideWorkspace,
+      alt: "Architectural workspace interior",
+      pre: "Plans are easy.",
+      highlight: "Execution",
+      post: "is where it counts.",
+    },
+    {
+      src: slideProfessional,
+      alt: "Professional working in a modern office",
+      pre: "Ideas are abundant.",
+      highlight: "Discipline",
+      post: "creates results.",
+    },
+    {
+      src: slideTeam,
+      alt: "Team collaborating around a desk",
+      pre: "Strategy points the way.",
+      highlight: "Execution",
+      post: "builds momentum.",
+    },
+    {
+      src: slideGroup,
+      alt: "Group discussion and planning",
+      pre: "Without follow-through,",
+      highlight: "plans",
+      post: "stay ideas.",
+    },
+    {
+      src: slideMeeting,
+      alt: "Focused business meeting scene",
+      pre: "Good strategy needs",
+      highlight: "relentless",
+      post: "execution.",
+    },
+  ]
+
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % slides.length)
+    }, 3500)
+    return () => window.clearInterval(timer)
+  }, [])
+
   return (
     <div>
       {/* Hero */}
@@ -115,11 +154,11 @@ export default function Home() {
               className="text-5xl md:text-6xl lg:text-7xl font-normal leading-tight text-white mb-8"
               style={{ fontFamily: "var(--font-serif)" }}
             >
-              Plans are easy.{" "}
+              {slides[activeIndex].pre} {" "}
               <em className="not-italic" style={{ color: "#C08A3E" }}>
-                Execution
+                {slides[activeIndex].highlight}
               </em>{" "}
-              is where it counts.
+              {slides[activeIndex].post}
             </h1>
 
             
@@ -156,7 +195,7 @@ export default function Home() {
 
           {/* Hero image carousel */}
           <div className="lg:pl-8">
-            <HeroCarousel />
+            <HeroCarousel slides={slides} activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
           </div>
         </div>
 
