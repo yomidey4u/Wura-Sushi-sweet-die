@@ -54,7 +54,7 @@ function HeroCarousel() {
   }, [])
 
   return (
-    <div className="relative overflow-hidden rounded-2xl h-[420px] sm:h-[480px]" style={{ backgroundColor: "#091220" }}>
+    <div className="relative overflow-hidden rounded-2xl h-[280px] sm:h-[420px] lg:h-[480px]" style={{ backgroundColor: "#091220" }}>
       {slides.map((slide, index) => (
         <img
           key={slide.src}
@@ -107,7 +107,7 @@ export default function Home() {
           style={{ backgroundColor: "#C08A3E", left: "max(24px, calc(50% - 680px))" }}
         />
 
-        <div className="relative max-w-6xl mx-auto px-6 pt-32 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="relative max-w-6xl mx-auto px-6 pt-16 md:pt-32 pb-16 md:pb-24 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
             
 
