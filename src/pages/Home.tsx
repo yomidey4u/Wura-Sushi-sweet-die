@@ -109,12 +109,7 @@ export default function Home() {
 
         <div className="relative max-w-6xl mx-auto px-6 pt-32 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
-            <div
-              className="text-xs tracking-widest uppercase mb-6 flex items-center gap-3"
-              style={{ color: "#C08A3E" }}
-            >
-              <span className="block w-8 h-px" style={{ backgroundColor: "#C08A3E" }} />
-            </div>
+            
 
             <h1
               className="text-5xl md:text-6xl lg:text-7xl font-normal leading-tight text-white mb-8"
