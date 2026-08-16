@@ -52,7 +52,7 @@ function HeroCarousel({
           key={slide.src}
           src={slide.src}
           alt={slide.alt}
-          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
           style={{ opacity: activeIndex === index ? 1 : 0 }}
         />
       ))}
@@ -120,7 +120,7 @@ export default function Home() {
   useEffect(() => {
     const timer = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % slides.length)
-    }, 3500)
+    }, 5000)
     return () => window.clearInterval(timer)
   }, [])
 
@@ -150,16 +150,25 @@ export default function Home() {
           <div>
             
 
-            <h1
-              className="text-5xl md:text-6xl lg:text-7xl font-normal leading-tight text-white mb-8"
-              style={{ fontFamily: "var(--font-serif)" }}
-            >
-              {slides[activeIndex].pre} {" "}
-              <em className="not-italic" style={{ color: "#C08A3E" }}>
-                {slides[activeIndex].highlight}
-              </em>{" "}
-              {slides[activeIndex].post}
-            </h1>
+            <div className="relative mb-8" style={{ minHeight: "6.5rem" }}>
+              {slides.map((s, i) => (
+                <h1
+                  key={i}
+                  className="absolute inset-0 text-5xl md:text-6xl lg:text-7xl font-normal leading-tight text-white"
+                  style={{
+                    fontFamily: "var(--font-serif)",
+                    transition: "opacity 1s ease",
+                    opacity: activeIndex === i ? 1 : 0,
+                  }}
+                >
+                  {s.pre} {" "}
+                  <em className="not-italic" style={{ color: "#C08A3E" }}>
+                    {s.highlight}
+                  </em>{" "}
+                  {s.post}
+                </h1>
+              ))}
+            </div>
 
             
 
