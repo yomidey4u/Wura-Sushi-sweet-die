@@ -1,0 +1,10 @@
+{
+  "description": "Streamline project management by integrating GitHub repositories to track issues, commits, and collaborate efficiently in one platform.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
