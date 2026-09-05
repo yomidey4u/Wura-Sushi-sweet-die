@@ -190,6 +190,10 @@ export default function Home() {
               >
                 Explore Services
               </Link>
+              <div className="flex items-center gap-3 mt-3 w-full lg:w-auto">
+                <Link to="/login" className="text-sm tracking-wide" style={{ color: "rgba(255,255,255,0.9)" }}>Log in</Link>
+                <Link to="/signup" className="px-4 py-2 text-sm font-medium tracking-wide" style={{ backgroundColor: "#C08A3E", color: "#0A1A2B", borderRadius: "2px" }} onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = "#D4A05A" }} onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = "#C08A3E" }}>Sign up</Link>
+              </div>
             </div>
           </div>
 

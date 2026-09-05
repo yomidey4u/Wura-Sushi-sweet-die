@@ -66,6 +66,29 @@ export default function Nav() {
               </Link>
             )
           })}
+          <Link to="/login" className="text-sm tracking-wide" style={{ color: "rgba(255,255,255,0.75)" }}>
+            Log in
+          </Link>
+          <Link
+            to="/signup"
+            className="ml-2 px-4 py-2 text-sm font-medium tracking-wide transition-all duration-200 border"
+            style={{
+              color: "#0A1A2B",
+              backgroundColor: "#C08A3E",
+              borderColor: "#C08A3E",
+              borderRadius: "2px",
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLElement
+              el.style.backgroundColor = "#D4A05A"
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLElement
+              el.style.backgroundColor = "#C08A3E"
+            }}
+          >
+            Sign up
+          </Link>
           <Link
             to="/contact"
             className="ml-2 px-5 py-2 text-sm font-medium tracking-wide transition-all duration-200 border"
@@ -142,6 +165,16 @@ export default function Nav() {
               </Link>
             )
           })}
+          <Link to="/login" className="text-sm tracking-wide py-1" style={{ color: "rgba(255,255,255,0.8)" }}>
+            Log in
+          </Link>
+          <Link
+            to="/signup"
+            className="mt-2 px-5 py-2.5 text-sm font-medium tracking-wide text-center border self-start"
+            style={{ color: "#0A1A2B", backgroundColor: "#C08A3E", borderRadius: "2px" }}
+          >
+            Sign up
+          </Link>
           <Link
             to="/contact"
             className="mt-2 px-5 py-2.5 text-sm font-medium tracking-wide text-center border self-start"
