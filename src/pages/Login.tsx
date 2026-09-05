@@ -17,24 +17,6 @@ export default function Login() {
     else navigate('/dashboard')
   }
 
-  return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-2xl mb-4">Log in</h1>
-      {error && <div className="text-red-500">{error}</div>}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block">Email</label>
-          <input value={email} onChange={e => setEmail(e.target.value)} className="input" />
-        </div>
-        <div>
-          <label className="block">Password</label>
-          <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="input" />
-        </div>
-        <div>
-          <button className="btn-primary" type="submit">Log in</button>
-        </div>
-      </form>
-      <p className="mt-4">Don't have an account? <Link to="/signup">Sign up</Link></p>
-    </div>
+    return <AuthScreen view="login" />
   )
 }

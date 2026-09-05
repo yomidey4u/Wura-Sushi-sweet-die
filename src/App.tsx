@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
 import Nav from "./components/Nav"
 import Footer from "./components/Footer"
 import Home from "./pages/Home"
@@ -11,9 +11,42 @@ import Login from "./pages/Login"
 import Dashboard from "./pages/Dashboard"
 import ProtectedRoute from "./components/ProtectedRoute"
 
-export default function App() {
+// Shared types used by AuthScreen / DashboardShell / ConsultationView /
+// TrainingView / SettingsView. Kept here so those components' existing
+// `import type { User } from '../App'` imports keep working unchanged.
+export type AuthView = 'login' | 'signup'
+export type DashboardTab = 'consultation' | 'training' | 'settings'
+export interface User {
+  name: string
+  email: string
+  intent?: 'consultation' | 'training' | 'both' | 'exploring'
+}
+
+const FULL_SCREEN_ROUTES = ["/login", "/signup", "/dashboard"]
+
+function AppRoutes() {
+  const location = useLocation()
+  const isFullScreen = FULL_SCREEN_ROUTES.some((p) => location.pathname.startsWith(p))
+
+  if (isFullScreen) {
+    // Auth screens and the dashboard render as their own full-height
+    // layouts (sidebar / split panel) — no marketing Nav or Footer here.
+    return (
+      <div className="h-screen w-full overflow-hidden">
+        <Routes>
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/dashboard"
+            element={<ProtectedRoute><Dashboard /></ProtectedRoute>}
+          />
+        </Routes>
+      </div>
+    )
+  }
+
   return (
-    <BrowserRouter>
+    <>
       <Nav />
       <main>
         <Routes>
@@ -22,15 +55,17 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/work" element={<Work />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/dashboard"
-            element={<ProtectedRoute><Dashboard /></ProtectedRoute>}
-          />
         </Routes>
       </main>
       <Footer />
+    </>
+  )
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppRoutes />
     </BrowserRouter>
   )
 }
